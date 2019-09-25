@@ -1,45 +1,24 @@
-import React, {useState, useEffect} from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import { LoginContext } from './context.js';
+import { LoginContext } from './context';
 
-const If = props => {
+const If = (props) => {
   return props.condition ? props.children : null;
 };
 
-console.log('auth loaded');
+export default function Auth(props) {
+  const context = useContext(LoginContext);
 
-// export default function Auth(props) {
-//     const AuthTypes = {capabilities: PropTypes.string.isRequired};
-//
-//   return(
-//
-//   )
-//
-// }
+  const okToRender = context.loggedIn
+    && (props.capability
+      ? context.user.capabilities && context.user.capabilities.includes(props.capability)
+      : true);
 
-class Auth extends React.Component {
-  render() {
-    console.log("AUTH RENDER");
-    return (
-      <LoginContext.Consumer>
-        {context => {
-          console.log(context);
-          let okToRender =
-            context.loggedIn &&
-            (this.props.capability
-              ? context.user.capabilities && context.user.capabilities.includes(this.props.capability)
-              : true);
-
-          return <If condition={okToRender}>{this.props.children}</If>;
-        }}
-      </LoginContext.Consumer>
-    );
-  }
+  return <If condition={okToRender}>{props.children}</If>;
 }
 
 Auth.propTypes = {
   capability: PropTypes.string.isRequired,
+  children: PropTypes.object,
 };
-
-export default Auth;

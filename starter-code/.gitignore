@@ -1,9 +1,12 @@
 # 401 JS
+.idea
 db
 .env
 temp
 build
 aws.yml
+*.crt
+*.key
 
 # Created by https://www.gitignore.io/api/vim,osx,node,linux,windows
 ### Linux ###
